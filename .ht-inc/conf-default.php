@@ -56,15 +56,11 @@ regarding specific terms and conditions, please contact
 
 
 #######################   end required modifications ###########################
-$host = $_SERVER['HTTP_HOST'];
-if (strpos($host, ':')) {
-        $host = substr( $host, 0, strpos($host, ':'));
-}
 
 define("BASEURL", "https://{$_SERVER['HTTP_HOST']}/vcl");   // no trailing slash - all of the URL except /index.php
 define("SCRIPT", "/index.php");                 // this should only be "/index.php" unless you rename index.php to something else
 define("HOMEURL", "https://{$_SERVER['HTTP_HOST']}/vcl/"); // url to go to when someone clicks HOME or Logout
-define("COOKIEDOMAIN", "{$host}");       // domain in which cookies are set
+define("COOKIEDOMAIN", "{$_SERVER['HTTP_HOST']}");       // domain in which cookies are set
 
 define("DEFAULTGROUP", "adminUsers"); // if a user is in no groups, use reservation
 										  //   length attriubtes from this group
@@ -162,6 +158,17 @@ $authMechs = array(
 	                                                             #   for the user.  Typically either 'cn', 'uid', or 'samaccountname'
 	                           "help" => "Use EXAMPLE1 LDAP if you are using an EXAMPLE1 account"), # message to be displayed on login page about when
 	                                                                                                #   to use this login mechanism*/
+	/*"CAS (Central Authentication Service)" => array("type" => "cas",
+	                                                  "affiliationid" => 3,                      # id from affiliation id this login method is associated with
+	                                                  "version" => 3,                            # this denotes the CAS protocol version used. currently supported values is 3. this value is maintained to track furture updates to the protocol
+	                                                  "host" => "cas.example.edu",               # the CAS server DNS name
+	                                                  "port" => "8443",                          # the CAS Server port
+	                                                  "context" => "/cas",                       # the CAS context
+	                                                  "validatecassslcerts" => true,             # validates the SSL certificates used by CAS server. strictly set to true for production (like) environments
+	                                                  "cacertpath" => "/etc/cas/cachain.pem",    # if using self signed certificates on the CAS server set this to the path where the CA chain is stored. Set to '' if using publicly trusted certificates
+	                                                  "attributemap" => array("sn" => "lastname", "givenName" => "firstname", "cn" => "preferredname", "mail" => "email"), # a list of CAS user attributes mapped to VCL user attributes
+	                                                  "defaultgroup" => "global",   # the default group name (excluding the affiliation name) that each CAS user should be added. make sure this group is pre-created
+	                                                  "help" => "Use CAS authentication to use your university CAS environment"),  # message to be displayed on login page about when to use this login mechanism*/
 );
 
 $affilValFunc = array();
@@ -191,4 +198,5 @@ $findAffilFuncs = array("testGeneralAffiliation");
 #require_once(".ht-inc/authmethods/itecsauth.php");
 #require_once(".ht-inc/authmethods/ldapauth.php");
 #require_once(".ht-inc/authmethods/shibauth.php");
+#require_once(".ht-inc/authmethods/casauth.php");
 ?>

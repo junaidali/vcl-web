@@ -79,18 +79,14 @@ $myurl .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 $includesecrets = 1;
 $includeconf = 1;
-$host = $_SERVER['HTTP_HOST'];
-if (strpos($host, ':')) {
-        $host = substr( $host, 0, strpos($host, ':'));
-}
 
-if(! ip2long(getHostbyname($host))) {
+if(! ip2long(getHostbyname($_SERVER['HTTP_HOST']))) {
 	print $header;
 	# php version
 	print "PHP version: " . phpversion() . "<br><br>\n";
-	title("Trying to resolve my hostname ({$host})");
+	title("Trying to resolve my hostname ({$_SERVER['HTTP_HOST']})");
 	print "<ul>\n";
-	fail("unable to resolve my hostname; ensure {$host} is in DNS or create an entry for it in /etc/hosts");
+	fail("unable to resolve my hostname; ensure {$_SERVER['HTTP_HOST']} is in DNS or create an entry for it in /etc/hosts");
 	print "</ul>\n";
 	$includesecrets = 0;
 	$includeconf = 0;
@@ -164,7 +160,8 @@ else {
 
 # conf.php tests
 $createcryptkey = 0;
-if($includeconf && include('.ht-inc/conf.php')) {	
+if($includeconf && include('.ht-inc/conf.php')) {
+	$host = $_SERVER['HTTP_HOST'];
 	if(! defined('COOKIEDOMAIN')) {
 		print $header;
 		# php version
