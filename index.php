@@ -20,10 +20,6 @@
 $VCLversion = '2.5';
 
 require_once(".ht-inc/conf.php");
-if(! isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on") {
-	header("Location: " . BASEURL . "/");
-	exit;
-}
 
 $user = '';
 $mysql_link_vcl = '';
