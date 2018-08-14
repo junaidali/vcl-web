@@ -7,3 +7,6 @@
 .ht-inc/spyc-0.5.1/
 dojo/
 themes/**/css/dojo
+.buildpath
+.project
+org.eclipse.*
